@@ -12,6 +12,7 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from django.core.asgi import get_asgi_application
 from channels.auth import AuthMiddlewareStack
 from django.core.asgi import get_asgi_application
+from rideshare_app import middleware
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rideshare_app.settings')
 
@@ -21,7 +22,7 @@ import app.routing
 
 application = ProtocolTypeRouter({
     "http": django_asgi_application,
-    "websocket": AuthMiddlewareStack(
+    "websocket": middleware.TokenAuthMiddlewareStack(
         URLRouter(
             app.routing.websocket_urlpatterns
         )
