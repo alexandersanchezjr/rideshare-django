@@ -4,9 +4,9 @@ from .serializers import NestedTripSerializer, TripSerializer
 from channels.db import database_sync_to_async
 
 
-class TaxiConsumer(AsyncWebsocketConsumer):
+class RideConsumer(AsyncWebsocketConsumer):
     """
-    Rideshare consumer
+    Ride consumer
     A Channels consumer is like a Django view with extra steps to support the WebSocket protocol. Whereas a Django view
     can only process an incoming request, a Channels consumer can send and receive messages to the WebSocket
     connection being opened and closed.
