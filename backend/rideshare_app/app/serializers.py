@@ -53,7 +53,7 @@ class LoginSerializer(TokenObtainPairSerializer):
         user_data = UserSerializer(user).data
         for key, value in user_data.items():
             if key != 'id':
-                token['key'] = value
+                token[key] = value
         return token
 
 
