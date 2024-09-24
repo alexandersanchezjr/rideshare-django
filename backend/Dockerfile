@@ -20,8 +20,5 @@ WORKDIR /usr/src/backend/rideshare_app
 # Run Django
 # CMD ["daphne", "-b", "0.0.0.0", "-p", "8001", "rideshare_app.asgi:application"]
 
-RUN python manage.py makemigrations
-RUN python manage.py migrate
-
 # Run Django
-CMD ["python", "manage.py", "runserver"]
+CMD python manage.py makemigrations && python manage.py migrate && python manage.py runserver
