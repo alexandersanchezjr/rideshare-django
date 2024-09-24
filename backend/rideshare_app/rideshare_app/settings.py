@@ -131,7 +131,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Django Channels settings
-ASGI_APPLICATION = 'rideshare_app.asgi.application'
+ASGI_APPLICATION = 'rideshare_app.routing.application'
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',

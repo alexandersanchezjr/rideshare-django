@@ -8,23 +8,11 @@ https://docs.djangoproject.com/en/5.1/howto/deployment/asgi/
 """
 
 import os
-from channels.routing import ProtocolTypeRouter, URLRouter
-from django.core.asgi import get_asgi_application
-from channels.auth import AuthMiddlewareStack
-from django.core.asgi import get_asgi_application
-from rideshare_app import middleware
+import django
+from channels.routing import get_default_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rideshare_app.settings')
 
-django_asgi_application = get_asgi_application()
+django.setup()
 
-import app.routing
-
-application = ProtocolTypeRouter({
-    "http": django_asgi_application,
-    "websocket": middleware.TokenAuthMiddlewareStack(
-        URLRouter(
-            app.routing.websocket_urlpatterns
-        )
-    ),
-})
+application = get_default_application()
