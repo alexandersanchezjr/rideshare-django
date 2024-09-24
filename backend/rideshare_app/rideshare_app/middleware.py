@@ -17,24 +17,24 @@ class TokenMiddleware:
     def __init__(self, inner):
         self.inner = inner
 
-    def __call__(self, scope):
+    def __call__(self, scope, receive, send):
         close_old_connections()
         query_strings = parse_qs(scope['query_string'].decode())
         token = query_strings.get('token')
         if not token:
             scope['user'] = AnonymousUser()
-            return self.inner(scope)
+            return self.inner(scope, receive, send)
         try:
             access_token = AccessToken(token[0])
             user = User.objects.get(id=access_token['id'])
         except Exception as exception:
             scope['user'] = AnonymousUser()
-            return self.inner(scope)
+            return self.inner(scope, receive, send)
         if not user.is_active:
             scope['user'] = AnonymousUser()
-            return self.inner(scope)
+            return self.inner(scope, receive, send)
         scope['user'] = user
-        return self.inner(scope)
+        return self.inner(scope, receive, send)
 
 
 def TokenAuthMiddlewareStack(inner):
