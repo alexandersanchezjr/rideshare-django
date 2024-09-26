@@ -13,7 +13,10 @@ class User(AbstractUser):
     We are using Django built in user with Abstract Base user
     for designing application with requirements
     """
-    pass
+    @property
+    def group(self):
+        groups = self.groups.all()
+        return groups[0].name if groups else None
 
 
 class Trip(models.Model):
