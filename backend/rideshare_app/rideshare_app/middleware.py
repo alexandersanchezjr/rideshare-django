@@ -31,12 +31,12 @@ class TokenMiddleware:
         except Exception as exception:
             print('Exception: ', exception)
             scope['user'] = AnonymousUser()
-            return self.inner(scope, receive, send)
+            return await self.inner(scope, receive, send)
         if not user.is_active:
             scope['user'] = AnonymousUser()
-            return self.inner(scope, receive, send)
+            return await self.inner(scope, receive, send)
         scope['user'] = user
-        return self.inner(scope, receive, send)
+        return await self.inner(scope, receive, send)
 
     @database_sync_to_async
     def _get_user_by_id(self, user_id):
