@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:8000/',
+  hostname: 'localhost:8000/',
+  wsEndpoint: 'ws/rideshare/',
   signup: 'v1/signup',
   login: 'v1/login',
   tokenRefresh: 'v1/token/refresh',
