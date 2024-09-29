@@ -2,24 +2,24 @@ import { User, UserResponse } from './user';
 
 export class Trip {
 
-  public id: string;
-  public created: string;
-  public updated: string;
+  public id?: string;
+  public created?: string;
+  public updated?: string;
   public pickUpAddress: string;
   public dropOffAddress: string;
-  public status: Status;
-  public driver: User;
-  public rider: User;
+  public status?: Status;
+  public driver?: User;
+  public rider?: User;
 
-  constructor (tripResponse: TripResponse) {
+  constructor (tripResponse: Partial<TripResponse>) {
     this.id = tripResponse.id;
     this.created = tripResponse.created;
     this.updated = tripResponse.updated;
-    this.pickUpAddress = tripResponse.pickUpAddress;
-    this.dropOffAddress = tripResponse.dropOffAddress;
+    this.pickUpAddress = tripResponse.pickUpAddress!;
+    this.dropOffAddress = tripResponse.dropOffAddress!;
     this.status = tripResponse.status as Status;
-    this.driver = new User(tripResponse.driver);
-    this.rider = new User(tripResponse.rider);
+    this.driver = tripResponse.driver ? new User(tripResponse.driver) : undefined;
+    this.rider = tripResponse.rider ? new User(tripResponse.rider) : undefined;
   }
 }
 
