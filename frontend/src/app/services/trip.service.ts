@@ -32,7 +32,7 @@ export class TripService {
 
   getTrips(): Observable<Trip[]> {
     return this.http
-      .get<Trip[]>(this.tripsUrl)
+      .get<TripResponse[]>(this.tripsUrl)
       .pipe(
         map((tripsResponses: TripResponse[]) =>
           tripsResponses.map(
@@ -53,7 +53,7 @@ export class TripService {
 
   getTrip(id: string): Observable<Trip> {
     return this.http
-      .get<Trip>(`${this.tripsUrl}/${id}`)
+      .get<TripResponse>(`${this.tripsUrl}/${id}`)
       .pipe(map((tripResponse: TripResponse) => new Trip(tripResponse)));
   }
 
