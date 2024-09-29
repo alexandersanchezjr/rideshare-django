@@ -19,9 +19,9 @@ type LoginData = {
 })
 export class AuthService {
 
-  private readonly apiUrl = environment.apiUrl;
-  private readonly loginUrl = this.apiUrl + environment.login;
-  private readonly signupUrl = this.apiUrl + environment.signup;
+  private readonly apiUrl: string = `http://${environment.hostname}`;
+  private readonly loginUrl:string = `${this.apiUrl}${environment.login}`;
+  private readonly signupUrl: string = `${this.apiUrl}${environment.signup}`;
 
   constructor(private http: HttpClient) { }
 
