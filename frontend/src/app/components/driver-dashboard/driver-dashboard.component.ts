@@ -70,4 +70,8 @@ export class DriverDashboardComponent {
       this.updateToast(trip);
     });
   }
+
+  ngOnDestroy(): void {
+    this.messages.unsubscribe();
+  }
 }
