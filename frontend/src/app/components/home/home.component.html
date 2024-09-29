@@ -1,1 +1,16 @@
-<p>home works!</p>
+<div class="middle-center d-flex align-items-center w-10">
+  <div>
+    <h1 class="landing logo">Rideshare</h1>
+    <div *ngIf="user; then thenBlock; else elseBlock;"></div>
+    <ng-template #thenBlock>
+      <a class="btn btn-primary" [routerLink]="isRider ? '/rider' : '/driver'">Dashboard</a>
+      <button class="btn btn-primary" (click)="logout()">Log out</button>
+    </ng-template>
+    <ng-template #elseBlock>
+      <div class="d-flex justify-content-evenly">
+        <a class="btn btn-primary" [routerLink]="['/log-in']">Log in</a>
+        <a class="btn btn-primary" [routerLink]="['/sign-up']">Sign up</a>
+      </div>
+    </ng-template>
+  </div>
+</div>
