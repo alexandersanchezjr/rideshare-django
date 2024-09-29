@@ -2,8 +2,8 @@ export class User {
   constructor(
     public id: number,
     public username: string,
-    public first_name: string,
-    public last_name: string,
+    public firstname: string,
+    public lastname: string,
     private group: UserGroup,
     public photo: string,
     public password?: string,
