@@ -6,6 +6,7 @@ export class User {
     public last_name: string,
     private group: UserGroup,
     public photo: string,
+    public password?: string,
   ) {}
 
   get isDriver(): boolean {
