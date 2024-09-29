@@ -15,12 +15,12 @@
           <li class="media">
             <img
               class="mr-3 rounded-circle"
-              [src]="trip.driver.photo"
+              [src]="trip.driver!.photo"
               width="80"
               height="80"
             >
             <div class="media-body">
-              <h5 class="mt-0 mb-1">{{ trip.driver.username }}</h5>
+              <h5 class="mt-0 mb-1">{{ trip.driver!.username }}</h5>
               {{ trip.pickUpAddress }} to {{ trip.dropOffAddress }}<br>
               {{ trip.status }}
             </div>
