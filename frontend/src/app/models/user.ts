@@ -18,7 +18,7 @@ export class User {
   }
 }
 
-const enum UserGroup {
+export const enum UserGroup {
   RIDER = 'rider',
   DRIVER = 'driver',
 }
