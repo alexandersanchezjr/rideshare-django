@@ -13,8 +13,9 @@ export class TripService {
   webSocket!: WebSocketSubject<any>;
   messages!: Observable<any>;
 
-  private readonly hostname: string = `http://${environment.hostname}`;
-  private readonly tripsUrl: string = `${this.hostname}${environment.trips}`;
+  private readonly hostname: string = `${environment.hostname}`;
+  private readonly websocketUrl: string = `ws://${this.hostname}${environment.wsEndpoint}`;
+  private readonly tripsUrl: string = `http://${this.hostname}${environment.trips}`;
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 
@@ -22,7 +23,7 @@ export class TripService {
     if (!this.webSocket || this.webSocket.closed) {
       const accessToken = this.auth.accessToken;
       this.webSocket = webSocket(
-        `ws://localhost:8080/taxi/?token=${accessToken}`
+        `${this.websocketUrl}?token=${accessToken}`
       );
       this.messages = this.webSocket.pipe(share());
       this.messages.subscribe((message) => console.log(message));
