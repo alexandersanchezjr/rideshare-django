@@ -51,14 +51,14 @@ export class SignUpComponent {
   onSubmit(): void {
     if (this.form.invalid) return;
 
-    this.auth.signup(this.form.value).subscribe(
-      () => {
-        this.router.navigate(['/log-in']);
+    this.auth.signup(this.form.value).subscribe({
+      next: () => {
+        this.router.navigate(['/login']);
       },
-      (error) => {
+      error: (error) => {
         console.error(error);
-      }
-    );
+      },
+    });
   }
 }
 
