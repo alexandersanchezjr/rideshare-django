@@ -23,7 +23,7 @@ export class Trip {
   }
 }
 
-export const enum Status {
+export enum Status {
   REQUESTED = 'REQUESTED',
   STARTED = 'STARTED',
   IN_PROGRESS = 'IN_PROGRESS',

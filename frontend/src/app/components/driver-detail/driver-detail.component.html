@@ -1,1 +1,56 @@
-<p>driver-detail works!</p>
+<div class="row">
+  <div class="col">
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a [routerLink]="['/driver']">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Trip</li>
+      </ol>
+    </nav>
+    <div class="card">
+      <h4 class="card-header">Trip</h4>
+      <div class="card-body">
+        <ul class="list-unstyled mb-0">
+          <li class="media">
+            <img
+              class="mr-3 rounded-circle"
+              [src]="trip.rider.photo"
+              width="80"
+              height="80"
+            >
+            <div class="media-body">
+              <h5 class="mt-0 mb-1">{{ trip.rider.username }}</h5>
+              {{ trip.pickUpAddress }} to {{ trip.dropOffAddress }}<br>
+              {{ trip.status }}
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="card-footer" [ngSwitch]="trip.status">
+        <button
+          class="btn btn-primary btn-block"
+          *ngSwitchCase="status.REQUESTED"
+          (click)="updateTripStatus(status.STARTED)"
+        >
+          Drive to pick up
+        </button>
+        <button
+          class="btn btn-primary btn-block"
+          *ngSwitchCase="status.STARTED"
+          (click)="updateTripStatus(status.IN_PROGRESS)"
+        >
+          Drive to drop off
+        </button>
+        <button
+          class="btn btn-primary btn-block"
+          *ngSwitchCase="status.IN_PROGRESS"
+          (click)="updateTripStatus(status.COMPLETED)"
+        >
+          Complete trip
+        </button>
+        <span class="text-center" *ngSwitchDefault>Completed</span>
+      </div>
+    </div>
+  </div>
+</div>
