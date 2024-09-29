@@ -1,1 +1,19 @@
-<p>rider-dashboard works!</p>
+<div class="row">
+  <div class="col">
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active">Dashboard</li>
+      </ol>
+    </nav>
+    <app-trip-card
+      class="card mb-3"
+      [title]="'Current Trip'"
+      [trips]="currentTrips"
+    ></app-trip-card>
+    <app-trip-card
+      class="card mb-3"
+      [title]="'Recent Trips'"
+      [trips]="completedTrips"
+    ></app-trip-card>
+  </div>
+</div>
