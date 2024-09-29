@@ -13,7 +13,7 @@ export class TripService {
   webSocket!: WebSocketSubject<any>;
   messages!: Observable<any>;
 
-  private readonly hostname: string = environment.hostname;
+  private readonly hostname: string = `http://${environment.hostname}`;
   private readonly tripsUrl: string = `${this.hostname}${environment.trips}`;
 
   constructor(private http: HttpClient, private auth: AuthService) {}
