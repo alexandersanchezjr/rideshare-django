@@ -33,7 +33,8 @@ RUN npm install
 COPY . .
 
 # Write the environment variables to a TypeScript file
-RUN echo "export const environment = {" > src/environments/environment.ts && \
+RUN mkdir -p src/environments && \
+    echo "export const environment = {" > src/environments/environment.ts && \
     echo "  production: ${PRODUCTION:-true}," >> src/environments/environment.ts && \
     echo "  hostname: '${HOSTNAME:-localhost:8000/}'," >> src/environments/environment.ts && \
     echo "  wsEndpoint: '${WS_ENDPOINT:-ws/rideshare/}'," >> src/environments/environment.ts && \
@@ -43,6 +44,7 @@ RUN echo "export const environment = {" > src/environments/environment.ts && \
     echo "  trips: '${TRIPS:-v1/trip}'," >> src/environments/environment.ts && \
     echo "  googleMapsApiKey: '${GOOGLE_MAPS_API_KEY}'," >> src/environments/environment.ts && \
     echo "};" >> src/environments/environment.ts
+
 
 # Build the Angular app
 RUN npm run build --prod
