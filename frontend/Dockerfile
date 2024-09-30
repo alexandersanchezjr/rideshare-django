@@ -20,7 +20,10 @@ RUN npm run build --prod
 FROM nginx:alpine
 
 # Copy the built Angular app from the build stage
-COPY --from=build /app/dist/frontend /usr/share/nginx/html
+COPY --from=build /app/dist/frontend/browser /usr/share/nginx/html
+
+# Remove the 50x.html default Nginx page
+RUN rm /usr/share/nginx/html/50x.html
 
 # Expose the default Nginx port
 EXPOSE 80
