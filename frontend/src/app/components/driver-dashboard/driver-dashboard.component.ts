@@ -46,7 +46,7 @@ export class DriverDashboardComponent {
 
   updateToast(trip: Trip): void {
     if (trip.driver === null) {
-      this.toastr.info(`Rider ${trip.rider.username} has requested a trip.`);
+      this.toastr.info(`Rider ${trip.rider!.username} has requested a trip.`);
     }
   }
 

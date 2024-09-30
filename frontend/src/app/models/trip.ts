@@ -37,6 +37,6 @@ export type TripResponse = {
   pickUpAddress: string;
   dropOffAddress: string;
   status: string;
-  driver: UserResponse;
-  rider: UserResponse;
+  driver: Partial<UserResponse>;
+  rider: Partial<UserResponse>;
 }

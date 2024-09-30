@@ -1,17 +1,17 @@
 export class User {
-  public id: number;
-  public username: string;
-  public firstname: string;
-  public lastname: string;
-  public group: UserGroup;
-  public photo: string;
+  public id?: number;
+  public username?: string;
+  public firstname?: string;
+  public lastname?: string;
+  public group?: UserGroup;
+  public photo?: string;
   public password?: string;
 
-  constructor(userResponse: UserResponse) {
+  constructor(userResponse: Partial<UserResponse>) {
     this.id = userResponse.id;
     this.username = userResponse.username;
-    this.firstname = userResponse.firstname;
-    this.lastname = userResponse.lastname;
+    this.firstname = userResponse.first_name;
+    this.lastname = userResponse.last_name;
     this.group = userResponse.group === UserGroup.DRIVER ? UserGroup.DRIVER : UserGroup.RIDER;
     this.photo = userResponse.photo;
     this.password = userResponse.password
@@ -32,11 +32,15 @@ export enum UserGroup {
 }
 
 export type UserResponse = {
+  token_type: string
+  exp: number
+  iat: number
+  jti: string
   id: number,
   username: string,
-  firstname: string,
-  lastname: string,
+  first_name: string,
+  last_name: string,
   group: string,
   photo: string,
-  password?: string
+  password: string
 }

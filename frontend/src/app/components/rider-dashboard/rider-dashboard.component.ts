@@ -63,11 +63,11 @@ export class RiderDashboardComponent {
 
   updateToast(trip: Trip): void {
     if (trip.status === Status.STARTED) {
-      this.toastr.info(`Driver ${trip.driver.username} is coming to pick you up.`);
+      this.toastr.info(`Driver ${trip.driver!.username} is coming to pick you up.`);
     } else if (trip.status === Status.IN_PROGRESS) {
-      this.toastr.info(`Driver ${trip.driver.username} is headed to your destination.`);
+      this.toastr.info(`Driver ${trip.driver!.username} is headed to your destination.`);
     } else if (trip.status === Status.COMPLETED) {
-      this.toastr.info(`Driver ${trip.driver.username} has dropped you off.`);
+      this.toastr.info(`Driver ${trip.driver!.username} has dropped you off.`);
     }
   }
 
