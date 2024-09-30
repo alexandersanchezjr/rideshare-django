@@ -54,7 +54,7 @@ export class AuthService {
     formData.append('password2', data.password!);
     formData.append('first_name', data.firstname!);
     formData.append('last_name', data.lastname!);
-    formData.append('group', data.group ? UserGroup.DRIVER : UserGroup.RIDER);
+    formData.append('group', data.group === UserGroup.DRIVER ? UserGroup.DRIVER : UserGroup.RIDER);
     return this.http.post<User>(this.signupUrl, formData);
   }
 
