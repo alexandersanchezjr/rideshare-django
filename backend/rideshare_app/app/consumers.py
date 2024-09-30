@@ -114,6 +114,8 @@ class RideConsumer(AsyncJsonWebsocketConsumer):
         message_type = content.get('type')
         if message_type == 'create.trip':
             await self.create_trip(content)
+        elif message_type == 'update.trip':
+            await self.update_trip(content)
         elif message_type == 'echo.message':
             await self.echo_message(content)
 
