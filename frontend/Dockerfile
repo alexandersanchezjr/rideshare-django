@@ -33,7 +33,7 @@ RUN npm install
 COPY . .
 
 # Write the environment variables to a TypeScript file
-RUN cat <<EOL > frontend/src/environments/environment.prod.ts
+RUN cat <<EOF > src/environments/environment.prod.ts
 export const environment = {
   production: ${PRODUCTION:-true},
   hostname: '${HOSTNAME:-localhost:8000/}',
@@ -44,7 +44,7 @@ export const environment = {
   trips: '${TRIPS:-v1/trip}',
   googleMapsApiKey: '${GOOGLE_MAPS_API_KEY}',
 };
-EOL
+EOF
 
 # Build the Angular app
 RUN npm run build --prod
