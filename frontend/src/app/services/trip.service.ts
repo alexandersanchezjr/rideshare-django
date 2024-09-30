@@ -57,9 +57,9 @@ export class TripService {
       .pipe(map((tripResponse: TripResponse) => new Trip(tripResponse)));
   }
 
-  updateTrip(trip: Trip): void {
+  updateTrip(trip: TripDataMessage): void {
     this.connect();
-    const message: { type: string; data: Trip } = {
+    const message: TripMessage = {
       type: 'update.trip',
       data: trip,
     };

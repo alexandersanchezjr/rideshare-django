@@ -51,7 +51,10 @@ export type TripMessage = {
 }
 
 export type TripDataMessage = {
+  id?: string;
   pick_up_address: string;
   drop_off_address: string;
-  rider: number;
+  status?: Status;
+  driver?: number;
+  rider?: number;
 }
