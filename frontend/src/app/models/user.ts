@@ -13,7 +13,6 @@ export class User {
     this.firstname = userResponse.first_name;
     this.lastname = userResponse.last_name;
     this.group = userResponse.group === UserGroup.DRIVER ? UserGroup.DRIVER : UserGroup.RIDER;
-    this.photo = userResponse.photo;
     this.password = userResponse.password
   }
 
@@ -41,6 +40,5 @@ export type UserResponse = {
   first_name: string,
   last_name: string,
   group: string,
-  photo: string,
   password: string
 }
