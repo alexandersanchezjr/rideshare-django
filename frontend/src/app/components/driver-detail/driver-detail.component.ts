@@ -26,7 +26,7 @@ export class DriverDetailComponent {
   ngOnInit(): void {
     this.route.data.subscribe({
       next: (data: Data) => {
-        const trip: Trip = data['trips'];
+        const trip: Trip = data['trip'];
         this.trip = trip;
       },
       error: (error) => {
