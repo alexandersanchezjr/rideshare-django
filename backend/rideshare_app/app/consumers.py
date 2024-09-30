@@ -1,16 +1,25 @@
-from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from .models import Trip
 from .serializers import NestedTripSerializer, TripSerializer
 from channels.db import database_sync_to_async
 
-
-class RideConsumer(AsyncWebsocketConsumer):
+class RideConsumer(AsyncJsonWebsocketConsumer):
     """
     Ride consumer
     A Channels consumer is like a Django view with extra steps to support the WebSocket protocol. Whereas a Django view
     can only process an incoming request, a Channels consumer can send and receive messages to the WebSocket
     connection being opened and closed.
     """
+
+    @database_sync_to_async
+    def _create_trip(self, data):
+        serializer = TripSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        return serializer.create(serializer.validated_data)
+
+    @database_sync_to_async
+    def _get_trip_data(self, trip):
+        return NestedTripSerializer(trip).data
 
     @database_sync_to_async
     def _get_user_group(self, user):
@@ -28,6 +37,13 @@ class RideConsumer(AsyncWebsocketConsumer):
                 status=Trip.COMPLETED
             ).only('id').values_list('id', flat=True)
         return map(str, trip_ids)
+
+    @database_sync_to_async
+    def _update_trip(self, data):
+        instance = Trip.objects.get(id=data.get('id'))
+        serializer = TripSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        return serializer.update(instance, serializer.validated_data)
 
     async def connect(self):
         """
@@ -47,7 +63,9 @@ class RideConsumer(AsyncWebsocketConsumer):
                     group="drivers",
                     channel=self.channel_name
                 )
-            for trip_id in await self._get_trip_ids(user):
+
+            ids = await self._get_trip_ids(user)
+            for trip_id in ids:
                 await self.channel_layer.group_add(
                     group=trip_id,
                     channel=self.channel_name
@@ -92,6 +110,7 @@ class RideConsumer(AsyncWebsocketConsumer):
         :param kwargs:
         :return:
         """
+
         message_type = content.get('type')
         if message_type == 'create.trip':
             await self.create_trip(content)
@@ -101,7 +120,7 @@ class RideConsumer(AsyncWebsocketConsumer):
     async def create_trip(self, message):
         data = message.get('data')
         trip = await self._create_trip(data)
-        trip_data = NestedTripSerializer(trip).data
+        trip_data = await self._get_trip_data(trip)
 
         # Send rider requests to all drivers.
         await self.channel_layer.group_send(group='drivers', message={
@@ -119,8 +138,28 @@ class RideConsumer(AsyncWebsocketConsumer):
             'data': trip_data,
         })
 
-    @database_sync_to_async
-    def _create_trip(self, data):
-        serializer = TripSerializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        return serializer.create(serializer.validated_data)
+    async def update_trip(self, message):
+        data = message.get('data')
+        trip = await self._update_trip(data)
+        trip_id = f'{trip.id}'
+        trip_data = await self._get_trip_data(trip)
+
+        # Send update to rider.
+        await self.channel_layer.group_send(
+            group=trip_id,
+            message={
+                'type': 'echo.message',
+                'data': trip_data,
+            }
+        )
+
+        # Add driver to the trip group.
+        await self.channel_layer.group_add(
+            group=trip_id,
+            channel=self.channel_name
+        )
+
+        await self.send_json({
+            'type': 'echo.message',
+            'data': trip_data
+        })
