@@ -14,18 +14,33 @@ services:
     ports:
       - "6379:6379"
 
-  web:
+  backend:
+    container_name: rideshare-backend
+    image: alexssjr2002/rideshare-backend
     build: 
       context: backend
       dockerfile: Dockerfile
     volumes:
-      - .:/usr/src/app
+      - ./backend:/usr/src/app
     ports:
       - "8000:8000"
     depends_on:
       - db
       - redis
     env_file: .env
+  
+  frontend:
+    container_name: rideshare-frontend
+    image: alexssjr2002/rideshare-frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/usr/src/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:
