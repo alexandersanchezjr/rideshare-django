@@ -1,6 +1,6 @@
 import { Component, SimpleChanges, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { Trip } from '@models/trip';
+import { TripDataMessage } from '@models/trip';
 import { AuthService } from '@services/auth.service';
 import { TripService } from '@services/trip.service';
 import { ToastrService } from 'ngx-toastr';
@@ -30,7 +30,7 @@ import {
   styles: ``,
 })
 export class RiderRequestComponent {
-  trip!: Trip;
+  trip!: TripDataMessage;
   origin!: google.maps.LatLngLiteral;
   destination!: google.maps.LatLngLiteral;
   directions!: Observable<google.maps.DirectionsResult | undefined>;
@@ -74,7 +74,7 @@ export class RiderRequestComponent {
   }
 
   moveMap(event: google.maps.MapMouseEvent) {
-    this.origin = (event.latLng!.toJSON());
+    this.origin = event.latLng!.toJSON();
   }
 
   move(event: google.maps.MapMouseEvent) {
@@ -84,11 +84,11 @@ export class RiderRequestComponent {
   onSubmit(): void {
     if (this.form.invalid) return;
 
-    this.trip = new Trip({
-      pickUpAddress: this.form.value.pickUpAddress,
-      dropOffAddress: this.form.value.dropOffAddress,
-      rider: this.auth.user!,
-    })
+    this.trip = {
+      pick_up_address: this.form.value.pickUpAddress,
+      drop_off_address: this.form.value.dropOffAddress,
+      rider: this.auth.user!.id!,
+    };
 
     this.tripService.createTrip(this.trip);
     this.router.navigateByUrl('/rider');
@@ -97,17 +97,17 @@ export class RiderRequestComponent {
   onUpdate(): void {
     if (this.form.invalid) return;
 
-    this.trip = new Trip({
-      pickUpAddress: this.form.value.pickUpAddress,
-      dropOffAddress: this.form.value.dropOffAddress,
-      rider: this.auth.user!,
-    })
-    const { pickUpAddress, dropOffAddress } = this.trip;
-    if (pickUpAddress && dropOffAddress) {
+    this.trip = {
+      pick_up_address: this.form.value.pickUpAddress,
+      drop_off_address: this.form.value.dropOffAddress,
+      rider: this.auth.user!.id!,
+    };
+    const { pick_up_address, drop_off_address } = this.trip;
+    if (pick_up_address && drop_off_address) {
       this.toastr.info('Updating map...');
       this.directions = this.googleMapsService.directions(
-        pickUpAddress,
-        dropOffAddress
+        pick_up_address,
+        drop_off_address
       );
     }
   }
