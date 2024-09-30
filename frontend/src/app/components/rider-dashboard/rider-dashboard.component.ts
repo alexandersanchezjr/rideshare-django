@@ -38,10 +38,8 @@ export class RiderDashboardComponent {
   ngOnInit(): void {
     this.route.data.subscribe({
       next: (data: Data) => {
-        const tripsResponse: TripResponse[] = data['trips'];
-        this.trips = tripsResponse.map(
-          (tripResponse: TripResponse) => new Trip(tripResponse)
-        );
+        const trips: Trip[] = data['trips'];
+        this.trips = trips
       },
       error: (error) => {
         console.error(error);
