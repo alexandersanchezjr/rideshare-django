@@ -15,11 +15,15 @@ export class Trip {
     this.id = tripResponse.id;
     this.created = tripResponse.created;
     this.updated = tripResponse.updated;
-    this.pickUpAddress = tripResponse.pickUpAddress!;
-    this.dropOffAddress = tripResponse.dropOffAddress!;
+    this.pickUpAddress = tripResponse.pick_up_address!;
+    this.dropOffAddress = tripResponse.drop_off_address!;
     this.status = tripResponse.status as Status;
     this.driver = tripResponse.driver ? new User(tripResponse.driver) : undefined;
     this.rider = tripResponse.rider ? new User(tripResponse.rider) : undefined;
+  }
+
+  get otherUser(): User {
+    return this.driver ? this.driver : this.rider!;
   }
 }
 
@@ -34,9 +38,20 @@ export type TripResponse = {
   id: string;
   created: string;
   updated: string;
-  pickUpAddress: string;
-  dropOffAddress: string;
+  pick_up_address: string;
+  drop_off_address: string;
   status: string;
   driver: Partial<UserResponse>;
   rider: Partial<UserResponse>;
+}
+
+export type TripMessage = {
+  type: string;
+  data: TripDataMessage;
+}
+
+export type TripDataMessage = {
+  pick_up_address: string;
+  drop_off_address: string;
+  rider: number;
 }
