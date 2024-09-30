@@ -53,7 +53,6 @@ export class RiderRequestComponent {
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     if (changes['origin'].currentValue) {
       this.updateMap();
     }
