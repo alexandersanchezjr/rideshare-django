@@ -21,8 +21,8 @@
             >
             <div class="media-body">
               <h5 class="mt-0 mb-1">{{ trip.driver!.username }}</h5>
-              {{ trip.pickUpAddress }} to {{ trip.dropOffAddress }}<br>
-              {{ trip.status }}
+              <strong>{{ trip.pickUpAddress }}</strong> to <strong>{{ trip.dropOffAddress }}</strong><br>
+              <mark>{{ trip.status }}</mark>
             </div>
           </li>
         </ul>
