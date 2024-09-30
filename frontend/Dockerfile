@@ -33,18 +33,16 @@ RUN npm install
 COPY . .
 
 # Write the environment variables to a TypeScript file
-RUN cat <<EOF > src/environments/environment.prod.ts
-export const environment = {
-  production: ${PRODUCTION:-true},
-  hostname: '${HOSTNAME:-localhost:8000/}',
-  wsEndpoint: '${WS_ENDPOINT:-ws/rideshare/}',
-  signup: '${SIGNUP:-v1/signup}',
-  login: '${LOGIN:-v1/login}',
-  tokenRefresh: '${TOKEN_REFRESH:-v1/token/refresh}',
-  trips: '${TRIPS:-v1/trip}',
-  googleMapsApiKey: '${GOOGLE_MAPS_API_KEY}',
-};
-EOF
+RUN echo "export const environment = {" > src/environments/environment.ts && \
+    echo "  production: ${PRODUCTION:-true}," >> src/environments/environment.ts && \
+    echo "  hostname: '${HOSTNAME:-localhost:8000/}'," >> src/environments/environment.ts && \
+    echo "  wsEndpoint: '${WS_ENDPOINT:-ws/rideshare/}'," >> src/environments/environment.ts && \
+    echo "  signup: '${SIGNUP:-v1/signup}'," >> src/environments/environment.ts && \
+    echo "  login: '${LOGIN:-v1/login}'," >> src/environments/environment.ts && \
+    echo "  tokenRefresh: '${TOKEN_REFRESH:-v1/token/refresh}'," >> src/environments/environment.ts && \
+    echo "  trips: '${TRIPS:-v1/trip}'," >> src/environments/environment.ts && \
+    echo "  googleMapsApiKey: '${GOOGLE_MAPS_API_KEY}'," >> src/environments/environment.ts && \
+    echo "};" >> src/environments/environment.ts
 
 # Build the Angular app
 RUN npm run build --prod
