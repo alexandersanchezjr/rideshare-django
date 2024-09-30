@@ -5,7 +5,7 @@ import { AuthService } from '@services/auth.service';
 import { TripService } from '@services/trip.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { GoogleMapsModule, GoogleMap } from '@angular/google-maps';
+import { GoogleMap, MapDirectionsRenderer } from '@angular/google-maps';
 import { GmapsService } from '@services/gmaps.service';
 import { AsyncPipe, NgIf } from '@angular/common';
 import {
@@ -20,7 +20,8 @@ import {
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    GoogleMapsModule,
+    GoogleMap,
+    MapDirectionsRenderer,
     RouterModule,
     NgIf,
     AsyncPipe,
@@ -29,11 +30,11 @@ import {
   styles: ``,
 })
 export class RiderRequestComponent {
-  apiLoaded: Observable<boolean>;
   trip!: Trip;
   origin!: google.maps.LatLngLiteral;
   destination!: google.maps.LatLngLiteral;
   directions!: Observable<google.maps.DirectionsResult | undefined>;
+  zoom: number = 4;
 
   @ViewChild(GoogleMap)
   map!: GoogleMap;
@@ -48,13 +49,15 @@ export class RiderRequestComponent {
     private router: Router,
     private toastr: ToastrService,
     private tripService: TripService,
-    private auth: AuthService
-  ) {
-    this.apiLoaded = googleMapsService.apiLoaded;
-  }
+    private auth: AuthService,
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
     if (changes['origin'].currentValue) {
+      this.updateMap();
+    }
+    if (changes['destination'].currentValue) {
       this.updateMap();
     }
   }
@@ -68,6 +71,14 @@ export class RiderRequestComponent {
         };
       });
     }
+  }
+
+  moveMap(event: google.maps.MapMouseEvent) {
+    this.origin = (event.latLng!.toJSON());
+  }
+
+  move(event: google.maps.MapMouseEvent) {
+    this.destination = event.latLng!.toJSON();
   }
 
   onSubmit(): void {
@@ -91,7 +102,6 @@ export class RiderRequestComponent {
       dropOffAddress: this.form.value.dropOffAddress,
       rider: this.auth.user!,
     })
-
     const { pickUpAddress, dropOffAddress } = this.trip;
     if (pickUpAddress && dropOffAddress) {
       this.toastr.info('Updating map...');
@@ -112,7 +122,7 @@ export class RiderRequestComponent {
         new google.maps.LatLng(this.destination.lat, this.destination.lng)
       );
     }
-    this.map.fitBounds(bounds);
-    this.map.panToBounds(bounds);
+    // this.map.fitBounds(bounds);
+    // this.map.panToBounds(bounds);
   }
 }
