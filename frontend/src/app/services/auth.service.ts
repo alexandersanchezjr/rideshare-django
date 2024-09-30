@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { environment } from 'environment'
-import { User, UserGroup } from '@models/user';
+import { User, UserGroup, UserResponse } from '@models/user';
 
 type Token = {
   access: string;
@@ -35,6 +35,13 @@ export class AuthService {
     localStorage.removeItem('rideshare.auth');
   }
 
+  refreshToken(): Observable<Token> {
+    const refreshToken = localStorage.getItem('rideshare.auth') ? JSON.parse(localStorage.getItem('rideshare.auth')!).refresh : '';
+    return this.http.post<Token>(`${this.apiUrl}/auth/token/refresh/`, { refresh: refreshToken }).pipe(
+      tap(token => localStorage.setItem('rideshare.auth', JSON.stringify(token)))
+    );
+  }
+
   get accessToken(): string {
     const token = localStorage.getItem('rideshare.auth');
     return token ? JSON.parse(token).access : '';
@@ -42,12 +49,12 @@ export class AuthService {
 
   signup (data: User): Observable<User> {
     const formData = new FormData();
-    formData.append('username', data.username);
+    formData.append('username', data.username!);
     formData.append('password1', data.password!);
     formData.append('password2', data.password!);
-    formData.append('firstname', data.firstname);
-    formData.append('lastname', data.lastname);
-    formData.append('photo', data.photo);
+    formData.append('firstname', data.firstname!);
+    formData.append('lastname', data.lastname!);
+    formData.append('photo', data.photo!);
     formData.append('group', data.isDriver ? UserGroup.DRIVER : UserGroup.RIDER);
 
     return this.http.post<User>(this.signupUrl, formData);
@@ -60,7 +67,8 @@ export class AuthService {
 
   private getUserFromAccessToken(accessToken: string): User {
     const payload: string = accessToken.split('.')[1];
-    const user: User = JSON.parse(atob(payload));
+    const userResponse: UserResponse = JSON.parse(atob(payload));
+    const user = new User(userResponse);
     return user;
   }
 }
