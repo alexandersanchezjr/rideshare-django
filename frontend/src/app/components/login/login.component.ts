@@ -24,13 +24,10 @@ export class LoginComponent {
   constructor(private router: Router, private auth: AuthService) {}
 
   onSubmit(): void {
-    console.log('Login form submitted');
-    console.log;
     if (this.form.invalid) return;
 
     this.auth.login(this.form.value).subscribe({
       next: () => {
-        console.log('Login successful');
         this.router.navigate(['']);
       },
       error: (error) => {

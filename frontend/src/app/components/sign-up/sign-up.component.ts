@@ -38,7 +38,6 @@ export class SignUpComponent {
   constructor(private router: Router, private auth: AuthService) {}
 
   onChange(event: any): void {
-    console.log(this.form)
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
       const photoControl = this.form.get('photo');
