@@ -1,6 +1,25 @@
 # Stage 1: Build the Angular app
 FROM node:18.20.4-alpine AS build
 
+# Set environment variables using Docker ARG directives
+ARG PRODUCTION=true
+ARG HOSTNAME=localhost:8000/
+ARG WS_ENDPOINT=ws/rideshare/
+ARG SIGNUP=v1/signup
+ARG LOGIN=v1/login
+ARG TOKEN_REFRESH=v1/token/refresh
+ARG TRIPS=v1/trip
+ARG GOOGLE_MAPS_API_KEY
+
+ENV PRODUCTION=$PRODUCTION
+ENV HOSTNAME=$HOSTNAME
+ENV WS_ENDPOINT=$WS_ENDPOINT
+ENV SIGNUP=$SIGNUP
+ENV LOGIN=$LOGIN
+ENV TOKEN_REFRESH=$TOKEN_REFRESH
+ENV TRIPS=$TRIPS
+ENV GOOGLE_MAPS_API_KEY=$GOOGLE_MAPS_API_KEY
+
 # Set working directory
 WORKDIR /app
 
@@ -12,6 +31,20 @@ RUN npm install
 
 # Copy the rest of the application code
 COPY . .
+
+# Write the environment variables to a TypeScript file
+RUN cat <<EOL > frontend/src/environments/environment.prod.ts
+export const environment = {
+  production: ${PRODUCTION:-true},
+  hostname: '${HOSTNAME:-localhost:8000/}',
+  wsEndpoint: '${WS_ENDPOINT:-ws/rideshare/}',
+  signup: '${SIGNUP:-v1/signup}',
+  login: '${LOGIN:-v1/login}',
+  tokenRefresh: '${TOKEN_REFRESH:-v1/token/refresh}',
+  trips: '${TRIPS:-v1/trip}',
+  googleMapsApiKey: '${GOOGLE_MAPS_API_KEY}',
+};
+EOL
 
 # Build the Angular app
 RUN npm run build --prod
