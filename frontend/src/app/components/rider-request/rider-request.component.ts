@@ -84,6 +84,14 @@ export class RiderRequestComponent {
   }
 
   onUpdate(): void {
+    if (this.form.invalid) return;
+
+    this.trip = new Trip({
+      pickUpAddress: this.form.value.pickUpAddress,
+      dropOffAddress: this.form.value.dropOffAddress,
+      rider: this.auth.user!,
+    })
+
     const { pickUpAddress, dropOffAddress } = this.trip;
     if (pickUpAddress && dropOffAddress) {
       this.toastr.info('Updating map...');
