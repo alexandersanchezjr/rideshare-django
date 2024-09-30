@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable, share } from 'rxjs';
 import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 import { AuthService } from './auth.service';
-import { Trip, TripResponse } from '@models/trip';
+import { Trip, TripDataMessage, TripMessage, TripResponse } from '@models/trip';
 import { environment } from 'environment';
 
 @Injectable({
@@ -42,9 +42,9 @@ export class TripService {
       );
   }
 
-  createTrip(trip: Trip): void {
+  createTrip(trip: TripDataMessage): void {
     this.connect();
-    const message: { type: string; data: Trip } = {
+    const message: TripMessage = {
       type: 'create.trip',
       data: trip,
     };
