@@ -37,7 +37,7 @@ export class AuthService {
 
   refreshToken(): Observable<Token> {
     const refreshToken = localStorage.getItem('rideshare.auth') ? JSON.parse(localStorage.getItem('rideshare.auth')!).refresh : '';
-    return this.http.post<Token>(`${this.apiUrl}/auth/token/refresh/`, { refresh: refreshToken }).pipe(
+    return this.http.post<Token>(`${this.apiUrl}${environment.tokenRefresh}`, { refresh: refreshToken }).pipe(
       tap(token => localStorage.setItem('rideshare.auth', JSON.stringify(token)))
     );
   }
@@ -52,11 +52,9 @@ export class AuthService {
     formData.append('username', data.username!);
     formData.append('password1', data.password!);
     formData.append('password2', data.password!);
-    formData.append('firstname', data.firstname!);
-    formData.append('lastname', data.lastname!);
-    formData.append('photo', data.photo!);
-    formData.append('group', data.isDriver ? UserGroup.DRIVER : UserGroup.RIDER);
-
+    formData.append('first_name', data.firstname!);
+    formData.append('last_name', data.lastname!);
+    formData.append('group', data.group ? UserGroup.DRIVER : UserGroup.RIDER);
     return this.http.post<User>(this.signupUrl, formData);
   }
 
