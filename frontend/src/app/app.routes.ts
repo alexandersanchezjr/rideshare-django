@@ -15,8 +15,8 @@ import { tripDetailResolver } from '@resolvers/trip-detail.resolver';
 import { tripListResolver } from '@resolvers/trip-list.resolver';
 
 export const routes: Routes = [
-  { path: 'sign-up', component: SignUpComponent },
-  { path: 'log-in', component: LoginComponent },
+  { path: 'signup', component: SignUpComponent },
+  { path: 'login', component: LoginComponent },
   {
     path: 'rider',
     component: RiderComponent,
