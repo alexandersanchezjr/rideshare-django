@@ -30,22 +30,22 @@ export class SignUpComponent {
       ]),
       confirmPassword: new FormControl('', [Validators.required]),
       group: new FormControl('rider', [Validators.required]),
-      photo: new FormControl('', [Validators.required]),
+      // photo: new FormControl('', [Validators.required]),
     },
     { validators: PasswordMatchValidator('password', 'confirmPassword') }
   );
 
   constructor(private router: Router, private auth: AuthService) {}
 
-  onChange(event: any): void {
-    if (event.target.files && event.target.files.length > 0) {
-      const file = event.target.files[0];
-      const photoControl = this.form.get('photo');
-      if (photoControl) {
-        photoControl.setValue(file);
-      }
-    }
-  }
+  // onChange(event: any): void {
+  //   if (event.target.files && event.target.files.length > 0) {
+  //     const file = event.target.files[0];
+  //     const photoControl = this.form.get('photo');
+  //     if (photoControl) {
+  //       photoControl.setValue(file);
+  //     }
+  //   }
+  // }
 
   onSubmit(): void {
     if (this.form.invalid) return;
