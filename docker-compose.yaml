@@ -18,7 +18,7 @@ services:
 
   backend:
     container_name: rideshare-backend
-    image: alexssjr2002/rideshare-backend
+    image: alexjr2002/rideshare-backend
     # build: 
     #   context: backend
     #   dockerfile: Dockerfile
@@ -33,7 +33,7 @@ services:
   
   frontend:
     container_name: rideshare-frontend
-    image: alexssjr2002/rideshare-frontend
+    image: alexjr2002/rideshare-frontend
     # build:
     #   context: frontend
     #   dockerfile: Dockerfile
