@@ -10,6 +10,7 @@ ARG LOGIN=v1/login
 ARG TOKEN_REFRESH=v1/token/refresh
 ARG TRIPS=v1/trip
 ARG GOOGLE_MAPS_API_KEY
+ARG PORT=8000
 
 ENV PRODUCTION=$PRODUCTION
 ENV HOSTNAME=$HOSTNAME
@@ -19,6 +20,7 @@ ENV LOGIN=$LOGIN
 ENV TOKEN_REFRESH=$TOKEN_REFRESH
 ENV TRIPS=$TRIPS
 ENV GOOGLE_MAPS_API_KEY=$GOOGLE_MAPS_API_KEY
+ENV PORT=$PORT
 
 # Set working directory
 WORKDIR /app
@@ -36,7 +38,7 @@ COPY . .
 RUN mkdir -p src/environments && \
     echo "export const environment = {" > src/environments/environment.ts && \
     echo "  production: ${PRODUCTION:-true}," >> src/environments/environment.ts && \
-    echo "  hostname: '${HOSTNAME:-localhost:8000/}'," >> src/environments/environment.ts && \
+    echo "  hostname: '${HOSTNAME:-localhost}:${PORT:-8000}/'," >> src/environments/environment.ts && \
     echo "  wsEndpoint: '${WS_ENDPOINT:-ws/rideshare/}'," >> src/environments/environment.ts && \
     echo "  signup: '${SIGNUP:-v1/signup}'," >> src/environments/environment.ts && \
     echo "  login: '${LOGIN:-v1/login}'," >> src/environments/environment.ts && \
