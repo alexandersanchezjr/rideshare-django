@@ -56,11 +56,11 @@ jobs:
             USER_NAME: ec2-user
           run: |
             echo "$PRIVATE_KEY" > pkey.pem && chmod 600 pkey.pem
-            scp -o StrictHostKeyChecking=no -i pkey.pem docker-compose.yaml ${USER_NAME}@${HOSTNAME}:/
+            scp -o StrictHostKeyChecking=no -i pkey.pem docker-compose.yaml ${USER_NAME}@${HOSTNAME}:~/docker-compose.yml
             ssh -o StrictHostKeyChecking=no -i pkey.pem ${USER_NAME}@${HOSTNAME} '
   
                 # Change to the directory where docker-compose.yml is located
-                cd /
+                cd ~
                 
                 # Pull the latest images (if necessary)
                 docker-compose pull
