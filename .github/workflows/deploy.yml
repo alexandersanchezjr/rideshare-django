@@ -74,11 +74,10 @@ jobs:
             echo "DB_PORT=$DB_PORT" >> .env
 
             scp -o StrictHostKeyChecking=no -i pkey.pem .env ${USER_NAME}@${HOSTNAME}:~/.env
-            scp -o StrictHostKeyChecking=no -i pkey.pem docker-compose.yaml ${USER_NAME}@${HOSTNAME}:~/docker-compose.ya
-            ml
+            scp -o StrictHostKeyChecking=no -i pkey.pem docker-compose.yaml ${USER_NAME}@${HOSTNAME}:~/docker-compose.yaml
             ssh -o StrictHostKeyChecking=no -i pkey.pem ${USER_NAME}@${HOSTNAME} '
   
-                # Change to the directory where docker-compose.yml is located
+                # Change to the directory where docker-compose.yaml is located
                 cd ~
                 
                 # Pull the latest images (if necessary)
