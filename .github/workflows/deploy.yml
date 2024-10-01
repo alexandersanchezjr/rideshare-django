@@ -55,6 +55,8 @@ jobs:
               USER_NAME: ec2-user
           run: |
             echo "$PRIVATE_KEY" | base64 -d > private_key && chmod 600 private_key
+            eval $(ssh-agent -s)
+            ssh-add private_key            
             scp -o StrictHostKeyChecking=no -i private_key docker-compose.yaml ${USER_NAME}@${HOSTNAME}:~/
             ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
   
