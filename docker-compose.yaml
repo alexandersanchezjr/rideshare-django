@@ -19,9 +19,9 @@ services:
   backend:
     container_name: rideshare-backend
     image: alexssjr2002/rideshare-backend
-    build: 
-      context: backend
-      dockerfile: Dockerfile
+    # build: 
+    #   context: backend
+    #   dockerfile: Dockerfile
     volumes:
       - ./backend:/usr/src/app
     ports:
@@ -34,9 +34,9 @@ services:
   frontend:
     container_name: rideshare-frontend
     image: alexssjr2002/rideshare-frontend
-    build:
-      context: frontend
-      dockerfile: Dockerfile
+    # build:
+    #   context: frontend
+    #   dockerfile: Dockerfile
     volumes:
       - ./frontend:/usr/src/app
     ports:
