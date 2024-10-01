@@ -29,7 +29,7 @@ services:
     depends_on:
       - db
       - redis
-    env_file: .env
+    env_file: ./.env
   
   frontend:
     container_name: rideshare-frontend
@@ -40,7 +40,7 @@ services:
     volumes:
       - ./frontend:/usr/src/app
     ports:
-      - "80:4200"
+      - "80:80"
     depends_on:
       - backend
 

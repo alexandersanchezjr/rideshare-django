@@ -28,9 +28,6 @@ WORKDIR /app
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install Angular CLI
-RUN npm install -g @angular/cli
-
 # Install dependencies
 RUN npm install
 
@@ -51,26 +48,20 @@ RUN mkdir -p src/environments && \
     echo "};" >> src/environments/environment.ts
 
 
-# Export the Angular port
-EXPOSE 4200
-
-# Start the Angular server
-CMD ["ng", "serve", "--host", "0.0.0.0"]
-
 # Build the Angular app
-# RUN npm run build --prod
+RUN npm run build --prod
 
 # Stage 2: Serve with Nginx
-# FROM nginx:alpine
+FROM nginx:alpine
 
 # Copy the built Angular app from the build stage
-# COPY --from=build /app/dist/frontend/browser /usr/share/nginx/html
+COPY --from=build /app/dist/frontend/browser /usr/share/nginx/html
 
 # Remove the 50x.html default Nginx page
-# RUN rm /usr/share/nginx/html/50x.html
+RUN rm /usr/share/nginx/html/50x.html
 
 # Expose the default Nginx port
-# EXPOSE 80
+EXPOSE 80
 
 # Start Nginx server
 # CMD ["nginx", "-g", "daemon off;"]
