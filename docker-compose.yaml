@@ -22,14 +22,11 @@ services:
     # build: 
     #   context: backend
     #   dockerfile: Dockerfile
-    volumes:
-      - ./backend:/usr/src/app
     ports:
       - "8000:8000"
     depends_on:
       - db
       - redis
-    env_file: ./.env
   
   frontend:
     container_name: rideshare-frontend
