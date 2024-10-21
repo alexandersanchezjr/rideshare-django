@@ -63,5 +63,8 @@ RUN rm /usr/share/nginx/html/50x.html
 # Expose the default Nginx port
 EXPOSE 80
 
+# Expose the secure Nginx port
+EXPOSE 443
+
 # Start Nginx server
 # CMD ["nginx", "-g", "daemon off;"]
